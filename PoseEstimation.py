@@ -11,6 +11,7 @@ cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 kneeStartFlag = kneeEndFlag = calfStartFlag = calfEndFlag = outsideFlag = insideFlag = False
 prevTime = 0
+prevSetTime = 0
 step = 0
 camera = True
 
@@ -73,6 +74,11 @@ with mp_pose.Pose(
 
             # fpsの描画
             cv2.putText(image, f'FPS: {int(fps)}', (20, 70), cv2.FONT_HERSHEY_PLAIN, 2, (255, 60, 60), 2)
+
+            # 全身が検出できないフレームは判定をスキップ
+            if results.pose_landmarks is None:
+                image_loc.image(image)
+                continue
 
             if step == 0:
                 showTime = currTime
@@ -203,13 +209,3 @@ with mp_pose.Pose(
             if cv2.waitKey(5) & 0xFF == 27:
                 break
         cap.release()
-
-
-
-
-
-
-
-# 精度の実験（条件を変えて）
-# 1，2　横を向いた状態からのほうが
-# アピールポイント
