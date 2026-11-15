@@ -1,0 +1,4 @@
+# Python 3.9 で動作確認 (2026-11)
+mediapipe==0.10.14   # mp.solutions を使用しているため（新しいバージョンでは削除済み）
+numpy<2
+streamlit==1.50.0
